@@ -1,0 +1,21 @@
+# Source files
+src/
+
+# Test files
+test/
+vitest.config.ts
+coverage/
+
+# Documentation
+docs/
+typedoc.json
+
+# Config files
+tsconfig.json
+tsup.config.ts
+.gitignore
+
+# Development
+node_modules/
+.env
+.env.*
