@@ -9,7 +9,11 @@
   "excludeProtected": true,
   "excludeInternal": true,
   "githubPages": true,
-  "categorizeByGroup": true,
+  "navigation": {
+    "includeCategories": false,
+    "includeGroups": false
+  },
+  "categorizeByGroup": false,
   "searchInComments": true,
   "hideGenerator": true
 }
