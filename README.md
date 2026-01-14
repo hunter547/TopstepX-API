@@ -1,6 +1,6 @@
 # topstepx-api
 
-A framework-agnostic TypeScript client for the TopstepX trading API with REST and WebSocket support.
+A framework-agnostic TypeScript client for the TopstepX trading API with REST and SignalR data feeds via WebSocket.
 
 ## Features
 
