@@ -19,7 +19,8 @@ coverage/
 .vscode/
 *.swp
 *.swo
-CLAUDE.md
+*.md
+!README.md
 
 # OS
 .DS_Store
