@@ -1,5 +1,5 @@
 # topstepx-api
-
+[![NPM Version](https://badge.fury.io/js/leaflet.smoothgeodesic.svg?style=flat)](https://www.npmjs.com/package/topstepx-apo)
 A framework-agnostic TypeScript client for the TopstepX trading API with REST and SignalR data feeds via WebSocket.
 
 ## Features
