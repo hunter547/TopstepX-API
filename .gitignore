@@ -21,6 +21,7 @@ coverage/
 *.swo
 *.md
 !README.md
+!CHANGELOG.md
 
 # OS
 .DS_Store
