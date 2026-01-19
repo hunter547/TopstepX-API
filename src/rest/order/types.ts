@@ -1,4 +1,4 @@
-import type { OrderType, OrderSide, OrderStatus } from '../../types/enums';
+import type { OrderType, OrderSide, OrderStatus } from "../../types/enums";
 
 export interface Order {
   id: number;
@@ -49,6 +49,13 @@ export interface SearchOrdersResponse {
 
 export interface SearchOpenOrdersRequest {
   accountId: number;
+}
+
+export interface SearchOpenOrdersResponse {
+  orders: Order[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
 }
 
 export interface CancelOrderRequest {

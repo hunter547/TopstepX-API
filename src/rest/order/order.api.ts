@@ -1,6 +1,5 @@
-import type { HttpClient } from '../http-client';
+import type { HttpClient } from "../http-client";
 import type {
-  Order,
   PlaceOrderRequest,
   PlaceOrderResponse,
   SearchOrdersRequest,
@@ -10,7 +9,8 @@ import type {
   CancelOrderResponse,
   ModifyOrderRequest,
   ModifyOrderResponse,
-} from './types';
+  SearchOpenOrdersResponse,
+} from "./types";
 
 /**
  * API for managing orders - place, cancel, modify, and search.
@@ -41,12 +41,12 @@ export class OrderApi {
    * @param request - Search parameters including accountId and optional date range
    * @returns Array of orders matching the search criteria
    */
-  async search(request: SearchOrdersRequest): Promise<Order[]> {
+  async search(request: SearchOrdersRequest): Promise<SearchOrdersResponse> {
     const response = await this.http.post<
       SearchOrdersRequest,
       SearchOrdersResponse
-    >('/api/Order/search', request);
-    return response.orders;
+    >("/api/Order/search", request);
+    return response;
   }
 
   /**
@@ -54,12 +54,14 @@ export class OrderApi {
    * @param request - Request containing the accountId
    * @returns Array of open orders
    */
-  async searchOpen(request: SearchOpenOrdersRequest): Promise<Order[]> {
+  async searchOpen(
+    request: SearchOpenOrdersRequest,
+  ): Promise<SearchOpenOrdersResponse> {
     const response = await this.http.post<
       SearchOpenOrdersRequest,
-      SearchOrdersResponse
-    >('/api/Order/searchOpen', request);
-    return response.orders;
+      SearchOpenOrdersResponse
+    >("/api/Order/searchOpen", request);
+    return response;
   }
 
   /**
@@ -91,8 +93,8 @@ export class OrderApi {
    */
   async place(request: PlaceOrderRequest): Promise<PlaceOrderResponse> {
     return this.http.post<PlaceOrderRequest, PlaceOrderResponse>(
-      '/api/Order/place',
-      request
+      "/api/Order/place",
+      request,
     );
   }
 
@@ -103,8 +105,8 @@ export class OrderApi {
    */
   async cancel(request: CancelOrderRequest): Promise<CancelOrderResponse> {
     return this.http.post<CancelOrderRequest, CancelOrderResponse>(
-      '/api/Order/cancel',
-      request
+      "/api/Order/cancel",
+      request,
     );
   }
 
@@ -115,8 +117,8 @@ export class OrderApi {
    */
   async modify(request: ModifyOrderRequest): Promise<ModifyOrderResponse> {
     return this.http.post<ModifyOrderRequest, ModifyOrderResponse>(
-      '/api/Order/modify',
-      request
+      "/api/Order/modify",
+      request,
     );
   }
 }
