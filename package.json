@@ -1,6 +1,6 @@
 {
   "name": "topstepx-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Framework-agnostic TypeScript client for the TopstepX trading API with REST and WebSocket support",
   "author": "Hunter Evanoff",
   "license": "MIT",
