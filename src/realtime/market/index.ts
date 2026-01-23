@@ -1,8 +1,8 @@
-export { MarketHub } from './market-hub';
+export { MarketHub } from "./market-hub";
 export type {
-  Quote,
+  MarketQuote,
   MarketTrade,
   MarketDepth,
   MarketEvent,
   MarketHubEvents,
-} from './types';
+} from "./types";

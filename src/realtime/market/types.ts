@@ -1,4 +1,4 @@
-export interface Quote {
+export interface MarketQuote {
   symbol: string;
   lastPrice: number;
   bestBid: number;
@@ -33,7 +33,7 @@ export interface MarketEvent<T> {
 
 export interface MarketHubEvents {
   [key: string]: unknown;
-  quote: MarketEvent<Quote>;
+  quote: MarketEvent<MarketQuote>;
   trade: MarketEvent<MarketTrade>;
   depth: MarketEvent<MarketDepth>;
 }

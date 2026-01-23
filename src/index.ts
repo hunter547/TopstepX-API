@@ -1,9 +1,14 @@
 // Main client
-export { TopstepXClient } from './client';
+export { TopstepXClient } from "./client";
 
 // Auth
-export { AuthService } from './auth';
-export type { AuthConfig, LoginRequest, LoginResponse, ValidateResponse } from './auth';
+export { AuthService } from "./auth";
+export type {
+  AuthConfig,
+  LoginRequest,
+  LoginResponse,
+  ValidateResponse,
+} from "./auth";
 
 // REST APIs
 export {
@@ -14,7 +19,7 @@ export {
   TradeApi,
   ContractApi,
   HistoryApi,
-} from './rest';
+} from "./rest";
 
 export type {
   HttpClientConfig,
@@ -55,15 +60,15 @@ export type {
   Bar,
   RetrieveBarsRequest,
   RetrieveBarsResponse,
-} from './rest';
+} from "./rest";
 
 // Realtime
-export { ConnectionManager, MarketHub, UserHub } from './realtime';
+export { ConnectionManager, MarketHub, UserHub } from "./realtime";
 
 export type {
   ConnectionManagerConfig,
   // Market hub types
-  Quote,
+  MarketQuote,
   MarketTrade,
   MarketDepth,
   MarketEvent,
@@ -74,7 +79,7 @@ export type {
   TradeUpdate,
   AccountUpdate,
   UserHubEvents,
-} from './realtime';
+} from "./realtime";
 
 // Types & Enums
 export {
@@ -84,9 +89,13 @@ export {
   BarUnit,
   PositionType,
   TradeType,
-} from './types';
+} from "./types";
 
-export type { ApiResponse, TopstepXClientConfig, TopstepXClientEvents } from './types';
+export type {
+  ApiResponse,
+  TopstepXClientConfig,
+  TopstepXClientEvents,
+} from "./types";
 
 // Errors
 export {
@@ -94,7 +103,7 @@ export {
   AuthenticationError,
   ApiError,
   ConnectionError,
-} from './errors';
+} from "./errors";
 
 // Utilities
-export { TypedEventEmitter } from './utils';
+export { TypedEventEmitter } from "./utils";

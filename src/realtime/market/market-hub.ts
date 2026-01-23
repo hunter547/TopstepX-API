@@ -1,6 +1,11 @@
-import type { ConnectionManager } from '../connection-manager';
-import { TypedEventEmitter } from '../../utils/event-emitter';
-import type { Quote, MarketTrade, MarketDepth, MarketHubEvents } from './types';
+import type { ConnectionManager } from "../connection-manager";
+import { TypedEventEmitter } from "../../utils/event-emitter";
+import type {
+  MarketQuote,
+  MarketTrade,
+  MarketDepth,
+  MarketHubEvents,
+} from "./types";
 
 export class MarketHub extends TypedEventEmitter<MarketHubEvents> {
   private subscribedQuotes = new Set<string>();
@@ -14,22 +19,25 @@ export class MarketHub extends TypedEventEmitter<MarketHubEvents> {
 
   private setupEventHandlers(): void {
     this.connectionManager.onMarketConnection((connection) => {
-      connection.on('GatewayQuote', (contractId: string, data: Quote[]) => {
-        this.emit('quote', { contractId, data });
-      });
-
       connection.on(
-        'GatewayTrade',
-        (contractId: string, data: MarketTrade[]) => {
-          this.emit('trade', { contractId, data });
-        }
+        "GatewayQuote",
+        (contractId: string, data: MarketQuote[]) => {
+          this.emit("quote", { contractId, data });
+        },
       );
 
       connection.on(
-        'GatewayDepth',
+        "GatewayTrade",
+        (contractId: string, data: MarketTrade[]) => {
+          this.emit("trade", { contractId, data });
+        },
+      );
+
+      connection.on(
+        "GatewayDepth",
         (contractId: string, data: MarketDepth[]) => {
-          this.emit('depth', { contractId, data });
-        }
+          this.emit("depth", { contractId, data });
+        },
       );
     });
   }
@@ -53,42 +61,42 @@ export class MarketHub extends TypedEventEmitter<MarketHubEvents> {
   async subscribeQuotes(contractId: string): Promise<void> {
     if (this.subscribedQuotes.has(contractId)) return;
     const connection = this.connectionManager.marketConnection;
-    await connection.invoke('SubscribeContractQuotes', contractId);
+    await connection.invoke("SubscribeContractQuotes", contractId);
     this.subscribedQuotes.add(contractId);
   }
 
   async unsubscribeQuotes(contractId: string): Promise<void> {
     if (!this.subscribedQuotes.has(contractId)) return;
     const connection = this.connectionManager.marketConnection;
-    await connection.invoke('UnsubscribeContractQuotes', contractId);
+    await connection.invoke("UnsubscribeContractQuotes", contractId);
     this.subscribedQuotes.delete(contractId);
   }
 
   async subscribeTrades(contractId: string): Promise<void> {
     if (this.subscribedTrades.has(contractId)) return;
     const connection = this.connectionManager.marketConnection;
-    await connection.invoke('SubscribeContractTrades', contractId);
+    await connection.invoke("SubscribeContractTrades", contractId);
     this.subscribedTrades.add(contractId);
   }
 
   async unsubscribeTrades(contractId: string): Promise<void> {
     if (!this.subscribedTrades.has(contractId)) return;
     const connection = this.connectionManager.marketConnection;
-    await connection.invoke('UnsubscribeContractTrades', contractId);
+    await connection.invoke("UnsubscribeContractTrades", contractId);
     this.subscribedTrades.delete(contractId);
   }
 
   async subscribeDepth(contractId: string): Promise<void> {
     if (this.subscribedDepth.has(contractId)) return;
     const connection = this.connectionManager.marketConnection;
-    await connection.invoke('SubscribeContractMarketDepth', contractId);
+    await connection.invoke("SubscribeContractMarketDepth", contractId);
     this.subscribedDepth.add(contractId);
   }
 
   async unsubscribeDepth(contractId: string): Promise<void> {
     if (!this.subscribedDepth.has(contractId)) return;
     const connection = this.connectionManager.marketConnection;
-    await connection.invoke('UnsubscribeContractMarketDepth', contractId);
+    await connection.invoke("UnsubscribeContractMarketDepth", contractId);
     this.subscribedDepth.delete(contractId);
   }
 }
