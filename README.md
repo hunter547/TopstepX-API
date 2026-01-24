@@ -41,12 +41,12 @@ const client = new TopstepXClient({
 await client.connect();
 
 // Get accounts
-const accounts = await client.accounts.search({ onlyActiveAccounts: true });
-console.log('Accounts:', accounts);
+const response = await client.accounts.search({ onlyActiveAccounts: true });
+console.log('Accounts:', response.accounts);
 
 // Place a market order
 const order = await client.orders.place({
-  accountId: accounts[0].id,
+  accountId: response.accounts[0].id,
   contractId: 'CON.F.US.ENQ.M25',
   type: OrderType.Market,
   side: OrderSide.Buy,
@@ -106,11 +106,18 @@ Access via `client.accounts`
 Search for accounts.
 
 ```typescript
-const accounts = await client.accounts.search({
+const response = await client.accounts.search({
   onlyActiveAccounts: boolean;
 });
 
-// Returns: Account[]
+// Returns: SearchAccountsResponse
+interface SearchAccountsResponse {
+  accounts: Account[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
+
 interface Account {
   id: number;
   name: string;
@@ -145,7 +152,13 @@ const result = await client.orders.place({
   linkedOrderId?: number;    // Optional linked order (OCO)
 });
 
-// Returns: { orderId: number, success: boolean, ... }
+// Returns: PlaceOrderResponse
+interface PlaceOrderResponse {
+  orderId: number;
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
 ```
 
 #### cancel
@@ -153,10 +166,17 @@ const result = await client.orders.place({
 Cancel an existing order.
 
 ```typescript
-await client.orders.cancel({
+const response = await client.orders.cancel({
   accountId: number;
   orderId: number;
 });
+
+// Returns: CancelOrderResponse
+interface CancelOrderResponse {
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
 ```
 
 #### modify
@@ -164,7 +184,7 @@ await client.orders.cancel({
 Modify an existing order.
 
 ```typescript
-await client.orders.modify({
+const response = await client.orders.modify({
   accountId: number;
   orderId: number;
   size?: number;
@@ -172,6 +192,13 @@ await client.orders.modify({
   stopPrice?: number;
   trailPrice?: number;
 });
+
+// Returns: ModifyOrderResponse
+interface ModifyOrderResponse {
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
 ```
 
 #### search
@@ -179,13 +206,20 @@ await client.orders.modify({
 Search historical orders.
 
 ```typescript
-const orders = await client.orders.search({
+const response = await client.orders.search({
   accountId: number;
   startTimestamp?: string;   // ISO 8601 format
   endTimestamp?: string;
 });
 
-// Returns: Order[]
+// Returns: SearchOrdersResponse
+interface SearchOrdersResponse {
+  orders: Order[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
+
 interface Order {
   id: number;
   accountId: number;
@@ -206,9 +240,17 @@ interface Order {
 Get currently open orders.
 
 ```typescript
-const openOrders = await client.orders.searchOpen({
+const response = await client.orders.searchOpen({
   accountId: number;
 });
+
+// Returns: SearchOpenOrdersResponse
+interface SearchOpenOrdersResponse {
+  orders: Order[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
 ```
 
 ---
@@ -222,11 +264,18 @@ Access via `client.positions`
 Get open positions.
 
 ```typescript
-const positions = await client.positions.searchOpen({
+const response = await client.positions.searchOpen({
   accountId: number;
 });
 
-// Returns: Position[]
+// Returns: SearchOpenPositionsResponse
+interface SearchOpenPositionsResponse {
+  positions: Position[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
+
 interface Position {
   id: number;
   accountId: number;
@@ -243,10 +292,17 @@ interface Position {
 Close a position entirely.
 
 ```typescript
-await client.positions.close({
+const response = await client.positions.close({
   accountId: number;
   contractId: string;
 });
+
+// Returns: ClosePositionResponse
+interface ClosePositionResponse {
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
 ```
 
 #### partialClose
@@ -254,11 +310,18 @@ await client.positions.close({
 Partially close a position.
 
 ```typescript
-await client.positions.partialClose({
+const response = await client.positions.partialClose({
   accountId: number;
   contractId: string;
   size: number;              // Number of contracts to close
 });
+
+// Returns: PartialClosePositionResponse
+interface PartialClosePositionResponse {
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
 ```
 
 ---
@@ -272,13 +335,20 @@ Access via `client.trades`
 Search trade history.
 
 ```typescript
-const trades = await client.trades.search({
+const response = await client.trades.search({
   accountId: number;
   startTimestamp: string;    // ISO 8601 format
   endTimestamp: string;
 });
 
-// Returns: Trade[]
+// Returns: SearchTradesResponse
+interface SearchTradesResponse {
+  trades: Trade[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
+
 interface Trade {
   id: number;
   accountId: number;
@@ -305,12 +375,19 @@ Access via `client.contracts`
 Search for contracts/symbols.
 
 ```typescript
-const contracts = await client.contracts.search({
+const response = await client.contracts.search({
   searchText: string;        // e.g., "ES", "NQ", "CL"
   live: boolean;             // true for live, false for sim
 });
 
-// Returns: Contract[]
+// Returns: SearchContractsResponse
+interface SearchContractsResponse {
+  contracts: Contract[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
+
 interface Contract {
   id: string;
   name: string;
@@ -326,12 +403,18 @@ interface Contract {
 Get a specific contract by ID.
 
 ```typescript
-const contract = await client.contracts.searchById({
+const response = await client.contracts.searchById({
   contractId: string;        // e.g., "CON.F.US.ENQ.M25"
   live: boolean;
 });
 
-// Returns: Contract | null
+// Returns: SearchContractByIdResponse
+interface SearchContractByIdResponse {
+  contract: Contract | null;
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
 ```
 
 ---
@@ -347,7 +430,7 @@ Get historical OHLCV bars.
 ```typescript
 import { BarUnit } from 'topstepx-api';
 
-const bars = await client.history.retrieveBars({
+const response = await client.history.retrieveBars({
   contractId: string;
   live: boolean;
   startTime: string;         // ISO 8601 format
@@ -358,7 +441,14 @@ const bars = await client.history.retrieveBars({
   includePartialBar: boolean;
 });
 
-// Returns: Bar[]
+// Returns: RetrieveBarsResponse
+interface RetrieveBarsResponse {
+  bars: Bar[];
+  success: boolean;
+  errorCode: number;
+  errorMessage: string | null;
+}
+
 interface Bar {
   t: string;   // timestamp
   o: number;   // open
@@ -428,7 +518,7 @@ client.marketHub.on('depth', ({ contractId, data }) => {
 #### Event Types
 
 ```typescript
-interface Quote {
+interface MarketQuote {
   symbol: string;
   lastPrice: number;
   bestBid: number;
@@ -612,23 +702,23 @@ async function main() {
     console.log('Connected to TopstepX');
 
     // Get accounts
-    const accounts = await client.accounts.search({ onlyActiveAccounts: true });
-    const account = accounts[0];
+    const accountsResponse = await client.accounts.search({ onlyActiveAccounts: true });
+    const account = accountsResponse.accounts[0];
     console.log(`Using account: ${account.name} (${account.id})`);
 
     // Search for ES contract
-    const contracts = await client.contracts.search({
+    const contractsResponse = await client.contracts.search({
       searchText: 'ES',
       live: false,
     });
-    const esContract = contracts.find(c => c.activeContract);
+    const esContract = contractsResponse.contracts.find(c => c.activeContract);
     console.log(`Found contract: ${esContract?.id}`);
 
     // Get historical data
     const endTime = new Date();
     const startTime = new Date(endTime.getTime() - 24 * 60 * 60 * 1000);
 
-    const bars = await client.history.retrieveBars({
+    const barsResponse = await client.history.retrieveBars({
       contractId: esContract!.id,
       live: false,
       startTime: startTime.toISOString(),
@@ -638,7 +728,7 @@ async function main() {
       limit: 24,
       includePartialBar: false,
     });
-    console.log(`Retrieved ${bars.length} hourly bars`);
+    console.log(`Retrieved ${barsResponse.bars.length} hourly bars`);
 
     // Subscribe to real-time quotes
     client.marketHub.on('quote', ({ contractId, data }) => {
@@ -660,13 +750,13 @@ async function main() {
       type: OrderType.Limit,
       side: OrderSide.Buy,
       size: 1,
-      limitPrice: bars[bars.length - 1].c - 10, // 10 points below last close
+      limitPrice: barsResponse.bars[barsResponse.bars.length - 1].c - 10, // 10 points below last close
     });
     console.log(`Placed order: ${order.orderId}`);
 
     // Check open orders
-    const openOrders = await client.orders.searchOpen({ accountId: account.id });
-    console.log(`Open orders: ${openOrders.length}`);
+    const openOrdersResponse = await client.orders.searchOpen({ accountId: account.id });
+    console.log(`Open orders: ${openOrdersResponse.orders.length}`);
 
     // Cancel the order
     await client.orders.cancel({
@@ -713,6 +803,21 @@ import type {
   Contract,
   Bar,
 
+  // Response types
+  SearchAccountsResponse,
+  PlaceOrderResponse,
+  CancelOrderResponse,
+  ModifyOrderResponse,
+  SearchOrdersResponse,
+  SearchOpenOrdersResponse,
+  SearchOpenPositionsResponse,
+  ClosePositionResponse,
+  PartialClosePositionResponse,
+  SearchTradesResponse,
+  SearchContractsResponse,
+  SearchContractByIdResponse,
+  RetrieveBarsResponse,
+
   // Request types
   PlaceOrderRequest,
   ModifyOrderRequest,
@@ -720,7 +825,7 @@ import type {
   RetrieveBarsRequest,
 
   // WebSocket types
-  Quote,
+  MarketQuote,
   MarketTrade,
   MarketDepth,
   OrderUpdate,
