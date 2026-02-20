@@ -22,6 +22,7 @@ coverage/
 *.md
 !README.md
 !CHANGELOG.md
+!MIGRATION.md
 
 # OS
 .DS_Store
