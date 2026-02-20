@@ -1,27 +1,20 @@
 import {
+  HttpTransportType,
   HubConnection,
   HubConnectionBuilder,
-  HttpTransportType,
   HubConnectionState,
-} from '@microsoft/signalr';
-import type { AuthService } from '../auth';
-import { ConnectionError } from '../errors';
-
-export interface ConnectionManagerConfig {
-  marketHubUrl: string;
-  userHubUrl: string;
-  auth: AuthService;
-  reconnectDelays?: number[];
-}
+} from "@microsoft/signalr";
+import { ConnectionError } from "../errors";
+import { ConnectionManagerConfigInterface } from "./connection-manager.config.interface";
 
 export class ConnectionManager {
   private marketConn: HubConnection | null = null;
   private userConn: HubConnection | null = null;
-  private readonly config: Required<ConnectionManagerConfig>;
+  private readonly config: Required<ConnectionManagerConfigInterface>;
   private marketConnectionCallbacks: Array<(conn: HubConnection) => void> = [];
   private userConnectionCallbacks: Array<(conn: HubConnection) => void> = [];
 
-  constructor(config: ConnectionManagerConfig) {
+  constructor(config: ConnectionManagerConfigInterface) {
     this.config = {
       marketHubUrl: config.marketHubUrl,
       userHubUrl: config.userHubUrl,
@@ -64,8 +57,8 @@ export class ConnectionManager {
     } catch (error) {
       throw new ConnectionError(
         `Failed to establish WebSocket connections: ${
-          error instanceof Error ? error.message : 'Unknown error'
-        }`
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
       );
     }
   }
@@ -85,14 +78,14 @@ export class ConnectionManager {
 
   get marketConnection(): HubConnection {
     if (!this.marketConn) {
-      throw new ConnectionError('Market connection not initialized');
+      throw new ConnectionError("Market connection not initialized");
     }
     return this.marketConn;
   }
 
   get userConnection(): HubConnection {
     if (!this.userConn) {
-      throw new ConnectionError('User connection not initialized');
+      throw new ConnectionError("User connection not initialized");
     }
     return this.userConn;
   }

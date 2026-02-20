@@ -1,13 +1,13 @@
 // Main client
-export { TopstepXClient } from "./client";
+export { TopstepXClient } from "./topstep.x.client";
 
 // Auth
 export { AuthService } from "./auth";
 export type {
-  AuthConfig,
-  LoginRequest,
-  LoginResponse,
-  ValidateResponse,
+  AuthConfigInterface,
+  AuthLoginRequestInterface,
+  AuthLoginResponseInterface,
+  AuthValidateResponseInterface,
 } from "./auth";
 
 // REST APIs
@@ -19,83 +19,92 @@ export {
   TradeApi,
   ContractApi,
   HistoryApi,
+  CME_CONTRACTS,
+  CmeContractStore,
 } from "./rest";
 
 export type {
-  HttpClientConfig,
-  // Account types
-  Account,
-  SearchAccountsRequest,
-  SearchAccountsResponse,
-  // Order types
-  Order,
-  PlaceOrderRequest,
-  PlaceOrderResponse,
-  SearchOrdersRequest,
-  SearchOrdersResponse,
-  SearchOpenOrdersRequest,
-  CancelOrderRequest,
-  CancelOrderResponse,
-  ModifyOrderRequest,
-  ModifyOrderResponse,
-  // Position types
-  Position,
-  SearchOpenPositionsRequest,
-  SearchOpenPositionsResponse,
-  ClosePositionRequest,
-  ClosePositionResponse,
-  PartialClosePositionRequest,
-  PartialClosePositionResponse,
-  // Trade types
-  Trade,
-  SearchTradesRequest,
-  SearchTradesResponse,
-  // Contract types
-  Contract,
-  SearchContractsRequest,
-  SearchContractsResponse,
-  SearchContractByIdRequest,
-  SearchContractByIdResponse,
-  // History types
-  Bar,
-  RetrieveBarsRequest,
-  RetrieveBarsResponse,
+  HttpClientConfigInterface,
+  // Account shared
+  AccountInterface,
+  SearchAccountsRequestInterface,
+  SearchAccountsResponseInterface,
+  // Order shared
+  OrderInterface,
+  PlaceOrderRequestInterface,
+  PlaceOrderResponseInterface,
+  SearchOrdersRequestInterface,
+  SearchOrdersResponseInterface,
+  SearchOpenOrdersRequestInterface,
+  CancelOrderRequestInterface,
+  CancelOrderResponseInterface,
+  ModifyOrderRequestInterface,
+  ModifyOrderResponseInterface,
+  // Position shared
+  PositionInterface,
+  SearchOpenPositionsRequestInterface,
+  SearchOpenPositionsResponseInterface,
+  ClosePositionRequestInterface,
+  ClosePositionResponseInterface,
+  PartialClosePositionRequestInterface,
+  PartialClosePositionResponseInterface,
+  // Trade shared
+  TradeInterface,
+  SearchTradesRequestInterface,
+  SearchTradesResponseInterface,
+  // Contract shared
+  ContractInterface,
+  SearchContractsRequestInterface,
+  SearchContractsResponseInterface,
+  SearchContractByIdRequestInterface,
+  SearchContractByIdResponseInterface,
+  CmeContractInterface,
+  CmeContractExchangeEnum,
+  CmeContractSectorEnum,
+  CmeContractSectorGroupInterface,
+  CmeTradeSectorGroupInterface,
+  CmeContractSymbolEnum,
+  // History shared
+  BarInterface,
+  RetrieveBarsRequestInterface,
+  RetrieveBarsResponseInterface,
 } from "./rest";
 
 // Realtime
-export { ConnectionManager, MarketHub, UserHub } from "./realtime";
+export {
+  ConnectionManager,
+  RealtimeMarketEventHub,
+  RealtimeUserEventHub,
+} from "./realtime";
 
 export type {
-  ConnectionManagerConfig,
-  // Market hub types
-  MarketQuote,
-  MarketTrade,
-  MarketDepth,
-  MarketEvent,
-  MarketHubEvents,
-  // User hub types
-  OrderUpdate,
-  PositionUpdate,
-  TradeUpdate,
-  AccountUpdate,
-  UserHubEvents,
+  ConnectionManagerConfigInterface,
+  // Market hub shared
+  RealtimeMarketEventHubInterface,
+  RealtimeMarketTradeEventInterface,
+  RealtimeMarketDepthEventInterface,
+  RealtimeMarketQuoteEventInterface,
+  RealtimeMarketEventInterface,
+  // User hub shared
+  RealtimeUserOrderUpdateInterface,
+  RealtimeUserPositionUpdateInterface,
+  RealtimeUserTradeUpdateInterface,
+  RealtimeUserAccountUpdateInterface,
+  RealtimeUserEventHubInterface,
 } from "./realtime";
 
 // Types & Enums
 export {
-  OrderType,
-  OrderSide,
-  OrderStatus,
-  BarUnit,
-  PositionType,
-  TradeType,
-} from "./types";
+  OrderStatusEnum,
+  PositionTypeEnum,
+  TradeTypeEnum,
+} from "./shared";
 
 export type {
   ApiResponse,
   TopstepXClientConfig,
   TopstepXClientEvents,
-} from "./types";
+} from "./shared";
 
 // Errors
 export {

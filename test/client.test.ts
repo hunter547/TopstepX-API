@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { TopstepXClient } from "../src/client";
+import { TopstepXClient } from "../src/topstep.x.client";
 
 // Mock SignalR
 vi.mock("@microsoft/signalr", () => ({

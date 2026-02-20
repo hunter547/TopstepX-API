@@ -1,10 +1,5 @@
-import { ApiError } from '../errors';
-
-export interface HttpClientConfig {
-  baseUrl: string;
-  getToken: () => Promise<string>;
-  timeout?: number;
-}
+import { ApiError } from "../errors";
+import { HttpClientConfigInterface } from "./http-client.config.interface";
 
 interface ApiResponseBase {
   success: boolean;
@@ -13,9 +8,9 @@ interface ApiResponseBase {
 }
 
 export class HttpClient {
-  private readonly config: Required<HttpClientConfig>;
+  private readonly config: Required<HttpClientConfigInterface>;
 
-  constructor(config: HttpClientConfig) {
+  constructor(config: HttpClientConfigInterface) {
     this.config = {
       baseUrl: config.baseUrl,
       getToken: config.getToken,
@@ -25,7 +20,7 @@ export class HttpClient {
 
   async post<TRequest, TResponse extends ApiResponseBase>(
     endpoint: string,
-    data: TRequest
+    data: TRequest,
   ): Promise<TResponse> {
     const token = await this.config.getToken();
     const controller = new AbortController();
@@ -33,10 +28,10 @@ export class HttpClient {
 
     try {
       const response = await fetch(`${this.config.baseUrl}${endpoint}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+          "Content-Type": "application/json",
+          Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
@@ -49,7 +44,7 @@ export class HttpClient {
         throw new ApiError(
           `HTTP error: ${response.status} ${response.statusText}`,
           response.status,
-          endpoint
+          endpoint,
         );
       }
 
@@ -57,9 +52,9 @@ export class HttpClient {
 
       if (!result.success || result.errorCode !== 0) {
         throw new ApiError(
-          result.errorMessage ?? 'API request failed',
+          result.errorMessage ?? "API request failed",
           result.errorCode,
-          endpoint
+          endpoint,
         );
       }
 
@@ -69,14 +64,14 @@ export class HttpClient {
 
       if (error instanceof ApiError) throw error;
 
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new ApiError('Request timeout', -1, endpoint);
+      if (error instanceof Error && error.name === "AbortError") {
+        throw new ApiError("Request timeout", -1, endpoint);
       }
 
       throw new ApiError(
-        error instanceof Error ? error.message : 'Unknown error',
+        error instanceof Error ? error.message : "Unknown error",
         -1,
-        endpoint
+        endpoint,
       );
     }
   }

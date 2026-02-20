@@ -1,8 +1,8 @@
-export { MarketHub } from "./market-hub";
+export { RealtimeMarketEventHub } from "./realtime.market.event.hub";
 export type {
-  MarketQuote,
-  MarketTrade,
-  MarketDepth,
-  MarketEvent,
-  MarketHubEvents,
-} from "./types";
+  RealtimeMarketEventInterface,
+  RealtimeMarketQuoteEventInterface,
+  RealtimeMarketTradeEventInterface,
+  RealtimeMarketDepthEventInterface,
+} from "./event";
+export type { RealtimeMarketEventHubInterface } from "./realtime.market.event.hub.interface";

@@ -1,33 +1,35 @@
-import { AuthenticationError } from '../errors';
-import type { AuthConfig, LoginRequest, LoginResponse } from './types';
+import { AuthenticationError } from "../errors";
+import { AuthConfigInterface } from "./auth.config.interface";
+import { AuthLoginRequestInterface } from "./login/auth.login.request.interface";
+import { AuthLoginResponseInterface } from "./login/auth.login.response.interface";
 
 export class AuthService {
   private sessionToken: string | null = null;
   private tokenExpiration: Date | null = null;
   private refreshTimer?: ReturnType<typeof setTimeout>;
-  private readonly config: Required<AuthConfig>;
+  private readonly config: Required<AuthConfigInterface>;
 
-  constructor(config: AuthConfig) {
+  constructor(config: AuthConfigInterface) {
     this.config = {
       username: config.username,
       apiKey: config.apiKey,
-      baseUrl: config.baseUrl ?? 'https://api.topstepx.com',
+      baseUrl: config.baseUrl ?? "https://api.topstepx.com",
       autoRefresh: config.autoRefresh ?? true,
       tokenValidityHours: config.tokenValidityHours ?? 24,
     };
   }
 
   async login(): Promise<void> {
-    const request: LoginRequest = {
+    const request: AuthLoginRequestInterface = {
       userName: this.config.username,
       apiKey: this.config.apiKey,
     };
 
     const response = await fetch(`${this.config.baseUrl}/api/Auth/loginKey`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'text/plain',
+        "Content-Type": "application/json",
+        Accept: "text/plain",
       },
       body: JSON.stringify(request),
     });
@@ -35,16 +37,16 @@ export class AuthService {
     if (!response.ok) {
       throw new AuthenticationError(
         `HTTP error during login: ${response.status}`,
-        response.status
+        response.status,
       );
     }
 
-    const data = (await response.json()) as LoginResponse;
+    const data = (await response.json()) as AuthLoginResponseInterface;
 
     if (!data.success || data.errorCode !== 0) {
       throw new AuthenticationError(
-        data.errorMessage ?? 'Login failed',
-        data.errorCode
+        data.errorMessage ?? "Login failed",
+        data.errorCode,
       );
     }
 
@@ -61,10 +63,10 @@ export class AuthService {
 
     try {
       const response = await fetch(`${this.config.baseUrl}/api/Auth/validate`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'text/plain',
+          "Content-Type": "application/json",
+          Accept: "text/plain",
           Authorization: `Bearer ${this.sessionToken}`,
         },
       });
@@ -88,7 +90,7 @@ export class AuthService {
     }
 
     if (!this.sessionToken) {
-      throw new AuthenticationError('No active session token available');
+      throw new AuthenticationError("No active session token available");
     }
 
     return this.sessionToken;
@@ -100,9 +102,7 @@ export class AuthService {
 
   private setTokenExpiration(): void {
     const expiration = new Date();
-    expiration.setHours(
-      expiration.getHours() + this.config.tokenValidityHours
-    );
+    expiration.setHours(expiration.getHours() + this.config.tokenValidityHours);
     this.tokenExpiration = expiration;
   }
 
@@ -133,7 +133,7 @@ export class AuthService {
           }
           this.scheduleTokenRefresh();
         } catch (error) {
-          console.error('Token refresh failed:', error);
+          console.error("Token refresh failed:", error);
         }
       }, refreshTime);
     }

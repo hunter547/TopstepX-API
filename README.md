@@ -795,7 +795,7 @@ import type {
   TopstepXClientConfig,
   TopstepXClientEvents,
 
-  // REST types
+  // REST shared
   Account,
   Order,
   Position,
@@ -803,7 +803,7 @@ import type {
   Contract,
   Bar,
 
-  // Response types
+  // Response shared
   SearchAccountsResponse,
   PlaceOrderResponse,
   CancelOrderResponse,
@@ -818,13 +818,13 @@ import type {
   SearchContractByIdResponse,
   RetrieveBarsResponse,
 
-  // Request types
+  // Request shared
   PlaceOrderRequest,
   ModifyOrderRequest,
-  SearchOrdersRequest,
+  SearchOrdersRequestInterface,
   RetrieveBarsRequest,
 
-  // WebSocket types
+  // WebSocket shared
   MarketQuote,
   MarketTrade,
   MarketDepth,

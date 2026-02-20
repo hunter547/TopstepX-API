@@ -1,13 +1,13 @@
-export { OrderApi } from './order.api';
-export type {
-  Order,
-  PlaceOrderRequest,
-  PlaceOrderResponse,
-  SearchOrdersRequest,
-  SearchOrdersResponse,
-  SearchOpenOrdersRequest,
-  CancelOrderRequest,
-  CancelOrderResponse,
-  ModifyOrderRequest,
-  ModifyOrderResponse,
-} from './types';
+export { OrderApi } from "./order.api";
+export type { OrderInterface } from "./order.interface";
+export type { PlaceOrderRequestInterface } from "./place/request/place.order.request.interface";
+export type { PlaceOrderResponseInterface } from "./place/response/place.order.response.interface";
+export type { SearchOrdersRequestInterface } from "./search/request/search.orders.request.interface";
+export type { SearchOrdersResponseInterface } from "./search/response/search.orders.response.interface";
+export type { SearchOpenOrdersRequestInterface } from "./search/open/request/search.open.orders.request.interface";
+export type { CancelOrderRequestInterface } from "./cancel/request/cancel.order.request.interface";
+export type { CancelOrderResponseInterface } from "./cancel/response/cancel.order.response.interface";
+export type { ModifyOrderRequestInterface } from "./modify/request/modify.order.request.interface";
+export type { ModifyOrderResponseInterface } from "./modify/response/modify.order.response.interface";
+export {OrderTypeEnum} from "../../shared/order.type.enum";
+export {OrderSideEnum} from "../../shared/order.side.enum";

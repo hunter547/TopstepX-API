@@ -1,20 +1,20 @@
 export { ConnectionManager } from "./connection-manager";
-export type { ConnectionManagerConfig } from "./connection-manager";
 
-export { MarketHub } from "./market";
+export { RealtimeMarketEventHub } from "./market";
 export type {
-  MarketQuote,
-  MarketTrade,
-  MarketDepth,
-  MarketEvent,
-  MarketHubEvents,
+  RealtimeMarketQuoteEventInterface,
+  RealtimeMarketTradeEventInterface,
+  RealtimeMarketDepthEventInterface,
+  RealtimeMarketEventInterface,
+  RealtimeMarketEventHubInterface,
 } from "./market";
 
-export { UserHub } from "./user";
+export { RealtimeUserEventHub } from "./user";
 export type {
-  OrderUpdate,
-  PositionUpdate,
-  TradeUpdate,
-  AccountUpdate,
-  UserHubEvents,
+  RealtimeUserOrderUpdateInterface,
+  RealtimeUserPositionUpdateInterface,
+  RealtimeUserTradeUpdateInterface,
+  RealtimeUserAccountUpdateInterface,
+  RealtimeUserEventHubInterface,
 } from "./user";
+export type { ConnectionManagerConfigInterface } from "./connection-manager.config.interface";

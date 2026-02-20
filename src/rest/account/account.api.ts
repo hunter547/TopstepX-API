@@ -1,15 +1,16 @@
 import type { HttpClient } from "../http-client";
-import type { SearchAccountsRequest, SearchAccountsResponse } from "./types";
+import { SearchAccountsRequestInterface } from "./search/search.accounts.request.interface";
+import { SearchAccountsResponseInterface } from "./search/search.accounts.response.interface";
 
 export class AccountApi {
   constructor(private readonly http: HttpClient) {}
 
   async search(
-    request: SearchAccountsRequest,
-  ): Promise<SearchAccountsResponse> {
+    request: SearchAccountsRequestInterface,
+  ): Promise<SearchAccountsResponseInterface> {
     const response = await this.http.post<
-      SearchAccountsRequest,
-      SearchAccountsResponse
+      SearchAccountsRequestInterface,
+      SearchAccountsResponseInterface
     >("/api/Account/search", request);
     return response;
   }

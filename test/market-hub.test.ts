@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { MarketHub } from '../src/realtime';
+import { RealtimeMarketEventHub } from '../src/realtime';
 import type { ConnectionManager } from '../src/realtime';
 import type { HubConnection } from '@microsoft/signalr';
 
@@ -37,7 +37,7 @@ describe('MarketHub', () => {
   describe('subscribe', () => {
     it('should subscribe to all market data for a contract', async () => {
       const { connectionManager, mockInvoke } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
 
       await marketHub.subscribe('CON.F.US.ENQ.M25');
 
@@ -57,7 +57,7 @@ describe('MarketHub', () => {
 
     it('should not re-subscribe to already subscribed contract', async () => {
       const { connectionManager, mockInvoke } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
 
       await marketHub.subscribeQuotes('CON.F.US.ENQ.M25');
       await marketHub.subscribeQuotes('CON.F.US.ENQ.M25');
@@ -69,7 +69,7 @@ describe('MarketHub', () => {
   describe('unsubscribe', () => {
     it('should unsubscribe from all market data', async () => {
       const { connectionManager, mockInvoke } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
 
       await marketHub.subscribe('CON.F.US.ENQ.M25');
       mockInvoke.mockClear();
@@ -91,7 +91,7 @@ describe('MarketHub', () => {
 
     it('should not unsubscribe from non-subscribed contract', async () => {
       const { connectionManager, mockInvoke } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
 
       await marketHub.unsubscribeQuotes('CON.F.US.ENQ.M25');
 
@@ -102,7 +102,7 @@ describe('MarketHub', () => {
   describe('events', () => {
     it('should emit quote events', async () => {
       const { connectionManager, triggerEvent } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
       const handler = vi.fn();
 
       marketHub.on('quote', handler);
@@ -118,7 +118,7 @@ describe('MarketHub', () => {
 
     it('should emit trade events', async () => {
       const { connectionManager, triggerEvent } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
       const handler = vi.fn();
 
       marketHub.on('trade', handler);
@@ -134,7 +134,7 @@ describe('MarketHub', () => {
 
     it('should emit depth events', async () => {
       const { connectionManager, triggerEvent } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
       const handler = vi.fn();
 
       marketHub.on('depth', handler);
@@ -152,7 +152,7 @@ describe('MarketHub', () => {
   describe('selective subscriptions', () => {
     it('should subscribe to quotes only', async () => {
       const { connectionManager, mockInvoke } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
 
       await marketHub.subscribeQuotes('CON.F.US.ENQ.M25');
 
@@ -165,7 +165,7 @@ describe('MarketHub', () => {
 
     it('should subscribe to trades only', async () => {
       const { connectionManager, mockInvoke } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
 
       await marketHub.subscribeTrades('CON.F.US.ENQ.M25');
 
@@ -178,7 +178,7 @@ describe('MarketHub', () => {
 
     it('should subscribe to depth only', async () => {
       const { connectionManager, mockInvoke } = createMockConnectionManager();
-      const marketHub = new MarketHub(connectionManager);
+      const marketHub = new RealtimeMarketEventHub(connectionManager);
 
       await marketHub.subscribeDepth('CON.F.US.ENQ.M25');
 

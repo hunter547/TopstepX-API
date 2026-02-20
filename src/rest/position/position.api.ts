@@ -1,39 +1,39 @@
 import type { HttpClient } from "../http-client";
-import type {
-  SearchOpenPositionsRequest,
-  SearchOpenPositionsResponse,
-  ClosePositionRequest,
-  ClosePositionResponse,
-  PartialClosePositionRequest,
-  PartialClosePositionResponse,
-} from "./types";
+import { SearchOpenPositionsRequestInterface } from "./search/open/request/search.open.positions.request.interface";
+import { SearchOpenPositionsResponseInterface } from "./search/open/response/search.open.positions.response.interface";
+import { ClosePositionRequestInterface } from "./close/request/close.position.request.interface";
+import { ClosePositionResponseInterface } from "./close/response/close.position.response.interface";
+import { PartialClosePositionRequestInterface } from "./partial/close/request/partial.close.position.request.interface";
+import { PartialClosePositionResponseInterface } from "./partial/close/response/partial.close.position.response.interface";
 
 export class PositionApi {
   constructor(private readonly http: HttpClient) {}
 
   async searchOpen(
-    request: SearchOpenPositionsRequest,
-  ): Promise<SearchOpenPositionsResponse> {
+    request: SearchOpenPositionsRequestInterface,
+  ): Promise<SearchOpenPositionsResponseInterface> {
     const response = await this.http.post<
-      SearchOpenPositionsRequest,
-      SearchOpenPositionsResponse
+      SearchOpenPositionsRequestInterface,
+      SearchOpenPositionsResponseInterface
     >("/api/Position/searchOpen", request);
     return response;
   }
 
-  async close(request: ClosePositionRequest): Promise<ClosePositionResponse> {
-    return this.http.post<ClosePositionRequest, ClosePositionResponse>(
-      "/api/Position/closeContract",
-      request,
-    );
+  async close(
+    request: ClosePositionRequestInterface,
+  ): Promise<ClosePositionResponseInterface> {
+    return this.http.post<
+      ClosePositionRequestInterface,
+      ClosePositionResponseInterface
+    >("/api/Position/closeContract", request);
   }
 
   async partialClose(
-    request: PartialClosePositionRequest,
-  ): Promise<PartialClosePositionResponse> {
+    request: PartialClosePositionRequestInterface,
+  ): Promise<PartialClosePositionResponseInterface> {
     return this.http.post<
-      PartialClosePositionRequest,
-      PartialClosePositionResponse
+      PartialClosePositionRequestInterface,
+      PartialClosePositionResponseInterface
     >("/api/Position/partialCloseContract", request);
   }
 }

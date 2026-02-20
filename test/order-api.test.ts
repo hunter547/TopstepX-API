@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { OrderApi, HttpClient } from "../src/rest";
-import { OrderType, OrderSide, OrderStatus } from "../src/types";
+import { OrderStatusEnum } from "../src/shared";
+import {OrderSideEnum, OrderTypeEnum} from "../src/rest/order";
 
 describe("OrderApi", () => {
   const mockFetch = vi.fn();
@@ -36,8 +37,8 @@ describe("OrderApi", () => {
       const result = await orderApi.place({
         accountId: 1,
         contractId: "CON.F.US.ENQ.M25",
-        type: OrderType.Market,
-        side: OrderSide.Buy,
+        type: OrderTypeEnum.Market,
+        side: OrderSideEnum.Buy,
         size: 1,
       });
 
@@ -49,8 +50,8 @@ describe("OrderApi", () => {
           body: JSON.stringify({
             accountId: 1,
             contractId: "CON.F.US.ENQ.M25",
-            type: OrderType.Market,
-            side: OrderSide.Buy,
+            type: OrderTypeEnum.Market,
+            side: OrderSideEnum.Buy,
             size: 1,
           }),
         }),
@@ -71,8 +72,8 @@ describe("OrderApi", () => {
       const result = await orderApi.place({
         accountId: 1,
         contractId: "CON.F.US.ENQ.M25",
-        type: OrderType.Limit,
-        side: OrderSide.Sell,
+        type: OrderTypeEnum.Limit,
+        side: OrderSideEnum.Sell,
         size: 2,
         limitPrice: 5000.5,
       });
@@ -139,9 +140,9 @@ describe("OrderApi", () => {
               id: 1,
               accountId: 1,
               contractId: "CON.F.US.ENQ.M25",
-              status: OrderStatus.Filled,
-              type: OrderType.Market,
-              side: OrderSide.Buy,
+              status: OrderStatusEnum.Filled,
+              type: OrderTypeEnum.Market,
+              side: OrderSideEnum.Buy,
               size: 1,
             },
           ],
@@ -172,9 +173,9 @@ describe("OrderApi", () => {
               id: 2,
               accountId: 1,
               contractId: "CON.F.US.ENQ.M25",
-              status: OrderStatus.Working,
-              type: OrderType.Limit,
-              side: OrderSide.Buy,
+              status: OrderStatusEnum.Working,
+              type: OrderTypeEnum.Limit,
+              side: OrderSideEnum.Buy,
               size: 1,
               limitPrice: 4900.0,
             },
@@ -185,7 +186,7 @@ describe("OrderApi", () => {
       const response = await orderApi.searchOpen({ accountId: 1 });
 
       expect(response.orders).toHaveLength(1);
-      expect(response.orders[0].status).toBe(OrderStatus.Working);
+      expect(response.orders[0].status).toBe(OrderStatusEnum.Working);
     });
   });
 });

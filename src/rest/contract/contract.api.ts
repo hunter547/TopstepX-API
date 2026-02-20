@@ -1,30 +1,28 @@
 import type { HttpClient } from "../http-client";
-import type {
-  SearchContractsRequest,
-  SearchContractsResponse,
-  SearchContractByIdRequest,
-  SearchContractByIdResponse,
-} from "./types";
+import { SearchContractsRequestInterface } from "./search/request/search.contracts.request.interface";
+import { SearchContractsResponseInterface } from "./search/response/search.contracts.response.interface";
+import { SearchContractByIdResponseInterface } from "./search/response/search.contract.by.id.request.interface";
+import { SearchContractByIdRequestInterface } from "./search/request/search.contract.by.id.request.interface";
 
 export class ContractApi {
   constructor(private readonly http: HttpClient) {}
 
   async search(
-    request: SearchContractsRequest,
-  ): Promise<SearchContractsResponse> {
+    request: SearchContractsRequestInterface,
+  ): Promise<SearchContractsResponseInterface> {
     const response = await this.http.post<
-      SearchContractsRequest,
-      SearchContractsResponse
+      SearchContractsRequestInterface,
+      SearchContractsResponseInterface
     >("/api/Contract/search", request);
     return response;
   }
 
   async searchById(
-    request: SearchContractByIdRequest,
-  ): Promise<SearchContractByIdResponse | null> {
+    request: SearchContractByIdRequestInterface,
+  ): Promise<SearchContractByIdResponseInterface | null> {
     const response = await this.http.post<
-      SearchContractByIdRequest,
-      SearchContractByIdResponse
+      SearchContractByIdRequestInterface,
+      SearchContractByIdResponseInterface
     >("/api/Contract/searchById", request);
     return response;
   }

@@ -1,45 +1,61 @@
-export { HttpClient } from './http-client';
-export type { HttpClientConfig } from './http-client';
+export { HttpClient } from "./http-client";
+export type { HttpClientConfigInterface } from "./http-client.config.interface";
 
-export { AccountApi } from './account';
-export type { Account, SearchAccountsRequest, SearchAccountsResponse } from './account';
+export { AccountApi } from "./account";
+export type { AccountInterface } from "./account";
+export type { SearchAccountsRequestInterface } from "./account/search/search.accounts.request.interface";
+export type { SearchAccountsResponseInterface } from "./account/search/search.accounts.response.interface";
 
-export { OrderApi } from './order';
+export { OrderApi } from "./order";
 export type {
-  Order,
-  PlaceOrderRequest,
-  PlaceOrderResponse,
-  SearchOrdersRequest,
-  SearchOrdersResponse,
-  SearchOpenOrdersRequest,
-  CancelOrderRequest,
-  CancelOrderResponse,
-  ModifyOrderRequest,
-  ModifyOrderResponse,
-} from './order';
+  OrderInterface,
+  PlaceOrderRequestInterface,
+  PlaceOrderResponseInterface,
+  SearchOrdersRequestInterface,
+  SearchOrdersResponseInterface,
+  SearchOpenOrdersRequestInterface,
+  CancelOrderRequestInterface,
+  CancelOrderResponseInterface,
+  ModifyOrderRequestInterface,
+  ModifyOrderResponseInterface,
+} from "./order";
 
-export { PositionApi } from './position';
+export { PositionApi } from "./position";
 export type {
-  Position,
-  SearchOpenPositionsRequest,
-  SearchOpenPositionsResponse,
-  ClosePositionRequest,
-  ClosePositionResponse,
-  PartialClosePositionRequest,
-  PartialClosePositionResponse,
-} from './position';
+  PositionInterface,
+  SearchOpenPositionsRequestInterface,
+  SearchOpenPositionsResponseInterface,
+  ClosePositionRequestInterface,
+  ClosePositionResponseInterface,
+  PartialClosePositionRequestInterface,
+  PartialClosePositionResponseInterface,
+} from "./position";
 
-export { TradeApi } from './trade';
-export type { Trade, SearchTradesRequest, SearchTradesResponse } from './trade';
-
-export { ContractApi } from './contract';
+export { TradeApi } from "./trade";
 export type {
-  Contract,
-  SearchContractsRequest,
-  SearchContractsResponse,
-  SearchContractByIdRequest,
-  SearchContractByIdResponse,
-} from './contract';
+  TradeInterface,
+  SearchTradesRequestInterface,
+  SearchTradesResponseInterface,
+} from "./trade";
 
-export { HistoryApi } from './history';
-export type { Bar, RetrieveBarsRequest, RetrieveBarsResponse } from './history';
+export { ContractApi, CME_CONTRACTS, CmeContractStore } from "./contract";
+export type {
+  ContractInterface,
+  SearchContractsRequestInterface,
+  SearchContractsResponseInterface,
+  SearchContractByIdRequestInterface,
+  SearchContractByIdResponseInterface,
+  CmeContractInterface,
+  CmeContractExchangeEnum,
+  CmeContractSectorEnum,
+  CmeContractSectorGroupInterface,
+  CmeTradeSectorGroupInterface,
+  CmeContractSymbolEnum,
+} from "./contract";
+
+export { HistoryApi } from "./history";
+export type {
+  BarInterface,
+  RetrieveBarsRequestInterface,
+  RetrieveBarsResponseInterface,
+} from "./history";
