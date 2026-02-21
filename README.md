@@ -31,7 +31,7 @@ Get your API key from your TopstepX account settings.
 ## Quick Start
 
 ```typescript
-import { TopstepXClient, OrderType, OrderSide } from 'topstepx-api';
+import { TopstepXClient, OrderTypeEnum, OrderSideEnum } from 'topstepx-api';
 
 const client = new TopstepXClient({
   username: process.env.TOPSTEP_USERNAME!,
@@ -48,8 +48,8 @@ console.log('Accounts:', response.accounts);
 const order = await client.orders.place({
   accountId: response.accounts[0].id,
   contractId: 'CON.F.US.ENQ.M25',
-  type: OrderType.Market,
-  side: OrderSide.Buy,
+  type: OrderTypeEnum.Market,
+  side: OrderSideEnum.Buy,
   size: 1,
 });
 console.log('Order placed:', order.orderId);
@@ -110,15 +110,15 @@ const response = await client.accounts.search({
   onlyActiveAccounts: boolean;
 });
 
-// Returns: SearchAccountsResponse
-interface SearchAccountsResponse {
-  accounts: Account[];
+// Returns: SearchAccountsResponseInterface
+interface SearchAccountsResponseInterface {
+  accounts: AccountInterface[];
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
 }
 
-interface Account {
+interface AccountInterface {
   id: number;
   name: string;
   canTrade: boolean;
@@ -137,13 +137,13 @@ Access via `client.orders`
 Place a new order.
 
 ```typescript
-import { OrderType, OrderSide } from 'topstepx-api';
+import { OrderTypeEnum, OrderSideEnum } from 'topstepx-api';
 
 const result = await client.orders.place({
   accountId: number;
   contractId: string;
-  type: OrderType;           // Market, Limit, Stop, StopLimit
-  side: OrderSide;           // Buy, Sell
+  type: OrderTypeEnum;       // Market, Limit, Stop, StopLimit
+  side: OrderSideEnum;       // Buy, Sell
   size: number;
   limitPrice?: number;       // Required for Limit/StopLimit
   stopPrice?: number;        // Required for Stop/StopLimit
@@ -152,8 +152,8 @@ const result = await client.orders.place({
   linkedOrderId?: number;    // Optional linked order (OCO)
 });
 
-// Returns: PlaceOrderResponse
-interface PlaceOrderResponse {
+// Returns: PlaceOrderResponseInterface
+interface PlaceOrderResponseInterface {
   orderId: number;
   success: boolean;
   errorCode: number;
@@ -171,8 +171,8 @@ const response = await client.orders.cancel({
   orderId: number;
 });
 
-// Returns: CancelOrderResponse
-interface CancelOrderResponse {
+// Returns: CancelOrderResponseInterface
+interface CancelOrderResponseInterface {
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
@@ -193,8 +193,8 @@ const response = await client.orders.modify({
   trailPrice?: number;
 });
 
-// Returns: ModifyOrderResponse
-interface ModifyOrderResponse {
+// Returns: ModifyOrderResponseInterface
+interface ModifyOrderResponseInterface {
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
@@ -212,23 +212,23 @@ const response = await client.orders.search({
   endTimestamp?: string;
 });
 
-// Returns: SearchOrdersResponse
-interface SearchOrdersResponse {
-  orders: Order[];
+// Returns: SearchOrdersResponseInterface
+interface SearchOrdersResponseInterface {
+  orders: OrderInterface[];
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
 }
 
-interface Order {
+interface OrderInterface {
   id: number;
   accountId: number;
   contractId: string;
   creationTimestamp: string;
   updateTimestamp: string | null;
-  status: OrderStatus;
-  type: OrderType;
-  side: OrderSide;
+  status: OrderStatusEnum;
+  type: OrderTypeEnum;
+  side: OrderSideEnum;
   size: number;
   limitPrice: number | null;
   stopPrice: number | null;
@@ -244,9 +244,9 @@ const response = await client.orders.searchOpen({
   accountId: number;
 });
 
-// Returns: SearchOpenOrdersResponse
-interface SearchOpenOrdersResponse {
-  orders: Order[];
+// Returns: SearchOpenOrdersResponseInterface
+interface SearchOpenOrdersResponseInterface {
+  orders: OrderInterface[];
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
@@ -268,20 +268,20 @@ const response = await client.positions.searchOpen({
   accountId: number;
 });
 
-// Returns: SearchOpenPositionsResponse
-interface SearchOpenPositionsResponse {
-  positions: Position[];
+// Returns: SearchOpenPositionsResponseInterface
+interface SearchOpenPositionsResponseInterface {
+  positions: PositionInterface[];
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
 }
 
-interface Position {
+interface PositionInterface {
   id: number;
   accountId: number;
   contractId: string;
   creationTimestamp: string;
-  type: PositionType;        // Long, Short
+  type: PositionTypeEnum;    // Long, Short
   size: number;
   averagePrice: number;
 }
@@ -297,8 +297,8 @@ const response = await client.positions.close({
   contractId: string;
 });
 
-// Returns: ClosePositionResponse
-interface ClosePositionResponse {
+// Returns: ClosePositionResponseInterface
+interface ClosePositionResponseInterface {
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
@@ -316,8 +316,8 @@ const response = await client.positions.partialClose({
   size: number;              // Number of contracts to close
 });
 
-// Returns: PartialClosePositionResponse
-interface PartialClosePositionResponse {
+// Returns: PartialClosePositionResponseInterface
+interface PartialClosePositionResponseInterface {
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
@@ -341,15 +341,15 @@ const response = await client.trades.search({
   endTimestamp: string;
 });
 
-// Returns: SearchTradesResponse
-interface SearchTradesResponse {
-  trades: Trade[];
+// Returns: SearchTradesResponseInterface
+interface SearchTradesResponseInterface {
+  trades: TradeInterface[];
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
 }
 
-interface Trade {
+interface TradeInterface {
   id: number;
   accountId: number;
   contractId: string;
@@ -357,7 +357,7 @@ interface Trade {
   price: number;
   profitAndLoss: number | null;
   fees: number;
-  side: OrderSide;
+  side: OrderSideEnum;
   size: number;
   voided: boolean;
   orderId: number;
@@ -380,15 +380,15 @@ const response = await client.contracts.search({
   live: boolean;             // true for live, false for sim
 });
 
-// Returns: SearchContractsResponse
-interface SearchContractsResponse {
-  contracts: Contract[];
+// Returns: SearchContractsResponseInterface
+interface SearchContractsResponseInterface {
+  contracts: ContractInterface[];
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
 }
 
-interface Contract {
+interface ContractInterface {
   id: string;
   name: string;
   description: string;
@@ -408,9 +408,9 @@ const response = await client.contracts.searchById({
   live: boolean;
 });
 
-// Returns: SearchContractByIdResponse
-interface SearchContractByIdResponse {
-  contract: Contract | null;
+// Returns: SearchContractByIdResponseInterface
+interface SearchContractByIdResponseInterface {
+  contract: ContractInterface | null;
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
@@ -428,28 +428,28 @@ Access via `client.history`
 Get historical OHLCV bars.
 
 ```typescript
-import { BarUnit } from 'topstepx-api';
+import { BarUnitEnum } from 'topstepx-api';
 
 const response = await client.history.retrieveBars({
   contractId: string;
   live: boolean;
   startTime: string;         // ISO 8601 format
   endTime: string;
-  unit: BarUnit;             // Second, Minute, Hour, Day, Week, Month
+  unit: BarUnitEnum;         // Second, Minute, Hour, Day, Week, Month
   unitNumber: number;        // e.g., 5 for 5-minute bars
   limit: number;             // Max bars to return
   includePartialBar: boolean;
 });
 
-// Returns: RetrieveBarsResponse
-interface RetrieveBarsResponse {
-  bars: Bar[];
+// Returns: RetrieveBarsResponseInterface
+interface RetrieveBarsResponseInterface {
+  bars: BarInterface[];
   success: boolean;
   errorCode: number;
   errorMessage: string | null;
 }
 
-interface Bar {
+interface BarInterface {
   t: string;   // timestamp
   o: number;   // open
   h: number;   // high
@@ -518,7 +518,7 @@ client.marketHub.on('depth', ({ contractId, data }) => {
 #### Event Types
 
 ```typescript
-interface MarketQuote {
+interface RealtimeMarketQuoteEventInterface {
   symbol: string;
   lastPrice: number;
   bestBid: number;
@@ -530,7 +530,7 @@ interface MarketQuote {
   timestamp: string;
 }
 
-interface MarketTrade {
+interface RealtimeMarketTradeEventInterface {
   symbolId: string;
   price: number;
   timestamp: string;
@@ -538,7 +538,7 @@ interface MarketTrade {
   volume: number;
 }
 
-interface MarketDepth {
+interface RealtimeMarketDepthEventInterface {
   price: number;
   volume: number;
   currentVolume: number;
@@ -603,43 +603,43 @@ client.userHub.on('account', (account) => {
 
 ```typescript
 import {
-  OrderType,
-  OrderSide,
-  OrderStatus,
-  BarUnit,
-  PositionType,
-  TradeType,
+  OrderTypeEnum,
+  OrderSideEnum,
+  OrderStatusEnum,
+  BarUnitEnum,
+  PositionTypeEnum,
+  TradeTypeEnum,
 } from 'topstepx-api';
 
-// OrderType
-OrderType.Limit      // 1
-OrderType.Market     // 2
-OrderType.Stop       // 3
-OrderType.StopLimit  // 4
+// OrderTypeEnum
+OrderTypeEnum.Limit      // 1
+OrderTypeEnum.Market     // 2
+OrderTypeEnum.Stop       // 3
+OrderTypeEnum.StopLimit  // 4
 
-// OrderSide
-OrderSide.Buy        // 0
-OrderSide.Sell       // 1
+// OrderSideEnum
+OrderSideEnum.Buy        // 0
+OrderSideEnum.Sell       // 1
 
-// OrderStatus
-OrderStatus.Pending        // 0
-OrderStatus.Working        // 1
-OrderStatus.Filled         // 2
-OrderStatus.Cancelled      // 3
-OrderStatus.Rejected       // 4
-OrderStatus.PartiallyFilled // 5
+// OrderStatusEnum
+OrderStatusEnum.Pending        // 0
+OrderStatusEnum.Working        // 1
+OrderStatusEnum.Filled         // 2
+OrderStatusEnum.Cancelled      // 3
+OrderStatusEnum.Rejected       // 4
+OrderStatusEnum.PartiallyFilled // 5
 
-// BarUnit
-BarUnit.Second       // 1
-BarUnit.Minute       // 2
-BarUnit.Hour         // 3
-BarUnit.Day          // 4
-BarUnit.Week         // 5
-BarUnit.Month        // 6
+// BarUnitEnum
+BarUnitEnum.Second       // 1
+BarUnitEnum.Minute       // 2
+BarUnitEnum.Hour         // 3
+BarUnitEnum.Day          // 4
+BarUnitEnum.Week         // 5
+BarUnitEnum.Month        // 6
 
-// PositionType
-PositionType.Long    // 0
-PositionType.Short   // 1
+// PositionTypeEnum
+PositionTypeEnum.Long    // 0
+PositionTypeEnum.Short   // 1
 ```
 
 ---
@@ -683,9 +683,9 @@ All errors extend `TopstepXError` and include:
 ```typescript
 import {
   TopstepXClient,
-  OrderType,
-  OrderSide,
-  BarUnit,
+  OrderTypeEnum,
+  OrderSideEnum,
+  BarUnitEnum,
   ApiError,
 } from 'topstepx-api';
 import 'dotenv/config';
@@ -723,7 +723,7 @@ async function main() {
       live: false,
       startTime: startTime.toISOString(),
       endTime: endTime.toISOString(),
-      unit: BarUnit.Hour,
+      unit: BarUnitEnum.Hour,
       unitNumber: 1,
       limit: 24,
       includePartialBar: false,
@@ -747,8 +747,8 @@ async function main() {
     const order = await client.orders.place({
       accountId: account.id,
       contractId: esContract!.id,
-      type: OrderType.Limit,
-      side: OrderSide.Buy,
+      type: OrderTypeEnum.Limit,
+      side: OrderSideEnum.Buy,
       size: 1,
       limitPrice: barsResponse.bars[barsResponse.bars.length - 1].c - 10, // 10 points below last close
     });
@@ -795,42 +795,42 @@ import type {
   TopstepXClientConfig,
   TopstepXClientEvents,
 
-  // REST shared
-  Account,
-  Order,
-  Position,
-  Trade,
-  Contract,
-  Bar,
+  // REST domain models
+  AccountInterface,
+  OrderInterface,
+  PositionInterface,
+  TradeInterface,
+  ContractInterface,
+  BarInterface,
 
-  // Response shared
-  SearchAccountsResponse,
-  PlaceOrderResponse,
-  CancelOrderResponse,
-  ModifyOrderResponse,
-  SearchOrdersResponse,
-  SearchOpenOrdersResponse,
-  SearchOpenPositionsResponse,
-  ClosePositionResponse,
-  PartialClosePositionResponse,
-  SearchTradesResponse,
-  SearchContractsResponse,
-  SearchContractByIdResponse,
-  RetrieveBarsResponse,
+  // Response interfaces
+  SearchAccountsResponseInterface,
+  PlaceOrderResponseInterface,
+  CancelOrderResponseInterface,
+  ModifyOrderResponseInterface,
+  SearchOrdersResponseInterface,
+  SearchOpenOrdersResponseInterface,
+  SearchOpenPositionsResponseInterface,
+  ClosePositionResponseInterface,
+  PartialClosePositionResponseInterface,
+  SearchTradesResponseInterface,
+  SearchContractsResponseInterface,
+  SearchContractByIdResponseInterface,
+  RetrieveBarsResponseInterface,
 
-  // Request shared
-  PlaceOrderRequest,
-  ModifyOrderRequest,
+  // Request interfaces
+  PlaceOrderRequestInterface,
+  ModifyOrderRequestInterface,
   SearchOrdersRequestInterface,
-  RetrieveBarsRequest,
+  RetrieveBarsRequestInterface,
 
-  // WebSocket shared
-  MarketQuote,
-  MarketTrade,
-  MarketDepth,
-  OrderUpdate,
-  PositionUpdate,
-  TradeUpdate,
+  // WebSocket interfaces
+  RealtimeMarketQuoteEventInterface,
+  RealtimeMarketTradeEventInterface,
+  RealtimeMarketDepthEventInterface,
+  RealtimeUserOrderUpdateInterface,
+  RealtimeUserPositionUpdateInterface,
+  RealtimeUserTradeUpdateInterface,
 } from 'topstepx-api';
 ```
 
